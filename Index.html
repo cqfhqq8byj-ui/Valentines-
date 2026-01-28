@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Holdynn ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: pop 0.6s ease;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #ff4d6d;
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .buttons {
+      margin-top: 25px;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      background: #eee;
+      color: #333;
+    }
+
+    /* Photo scene */
+    .photo-screen {
+      position: fixed;
+      inset: 0;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .photo-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.95) saturate(1.1);
+      animation: slowZoom 12s ease forwards;
+    }
+
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    .kiss {
+      position: absolute;
+      font-size: 90px;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      text-shadow: 0 0 25px rgba(255,255,255,0.9);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.6);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <h1 id="title">Hey Holdynn 💖</h1>
+  <p id="text">Will you be my Valentine? 💌</p>
+
+  <div class="buttons">
+    <button id="yes">Yes 💘</button>
+    <button id="no">No 🙄</button>
+  </div>
+</div>
+
+<!-- Hidden Elvis song -->
+<iframe
+  id="elvis"
+  width="0"
+  height="0"
+  src=""
+  allow="autoplay"
+></iframe>
+
+<script>
+  const text = document.getElementById("text");
+  const yes = document.getElementById("yes");
+  const no = document.getElementById("no");
+  const elvis = document.getElementById("elvis");
+
+  let noClicks = 0;
+  let yesScale = 1;
+  let noScale = 1;
+
+  const noStages = [
+    "Are you sure? 🤨",
+    "Think again… 😏",
+    "You’re playing hard to get 😭",
+    "This is getting awkward 💔",
+    "Okay but like… why 😤",
+    "No is losing power 😌"
+  ];
+
+  no.addEventListener("click", () => {
+    if (noClicks < noStages.length) {
+      text.innerText = noStages[noClicks];
+    }
+
+    noScale -= 0.15;
+    yesScale += 0.15;
+
+    no.style.transform = `scale(${noScale})`;
+    yes.style.transform = `scale(${yesScale})`;
+
+    noClicks++;
+
+    if (noScale <= 0.2) {
+      no.style.display = "none";
+      text.innerText = "Only one choice feels right 💕";
+    }
+  });
+
+  yes.addEventListener("click", () => {
+    // Play Elvis
+    elvis.src =
+      "https://www.youtube.com/embed/vGJTaP6anOU?autoplay=1&controls=0";
+
+    // Photo takeover
+    document.body.innerHTML += `
+      <div class="photo-screen">
+        <img src="photo.jpg" alt="Us">
+        <div class="kiss hidden">💋</div>
+      </div>
+    `;
+
+    // Show kiss after 5 seconds
+    setTimeout(() => {
+      document.querySelector(".kiss").classList.remove("hidden");
+    }, 5000);
+  });
+</script>
+
+</body>
+</html>
